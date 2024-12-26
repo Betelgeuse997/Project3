@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+    </head>
+    <body>
+        <form id="signIn">
+            <h1>Sign In</h1>
+            <label for="emailId">Enter EmailId: </label>
+            <input type="text" placeholder="enter email" name="emailId" >
+            <label for="password">Enter password: </label>
+            <input type="password" placeholder="enter password" name="password" >
+            <button type="submit">Submit</button>
+        </form>
+        <form id="signUp">
+            <h1>Sign Up</h1>
+            <label for="emailId">Enter EmailId: </label>
+            <input type="text" placeholder="enter email" name="emailId" >
+            <label for="password">Enter password: </label>
+            <input type="password" placeholder="enter password" name="password" >
+            <button type="submit">Submit</button>
+        </form>
+        <script>
+            document.getElementById('signUp').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from refreshing the page
+
+            // Capture form data
+            const formData = new FormData(event.target); // Grabs all form inputs
+            const formObject = Object.fromEntries(formData.entries()); // Converts form data to an object
+
+            // Send the data as JSON
+            fetch('http://localhost:5050/user/signUp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json' // Inform the server the data is JSON
+                },
+                body: JSON.stringify(formObject), // Convert form data object to JSON
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Response from server:', data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+        document.getElementById('signIn').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from refreshing the page
+
+            // Capture form data
+            const formData = new FormData(event.target); // Grabs all form inputs
+            const formObject = Object.fromEntries(formData.entries()); // Converts form data to an object
+            console.log(formObject);
+            // Send the data as JSON
+            fetch('http://localhost:5050/user/signIn', {
+                headers: {
+                    'Content-Type': 'application/json' // Inform the server the data is JSON
+                },
+                body: JSON.stringify(formObject),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Response from server:', data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+        </script>
+    </body>
+</html>
